@@ -1,7 +1,7 @@
 {
   "name": "receptionist",
   "version": "0.0.1",
-  "description": "Rails like storing of application credentials like database passwords or API keys encrypted in your repository.",
+  "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
