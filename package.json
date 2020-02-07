@@ -1,0 +1,27 @@
+{
+  "name": "receptionist",
+  "version": "0.0.1",
+  "description": "Rails like storing of application credentials like database passwords or API keys encrypted in your repository.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pik-9/receptionist.git"
+  },
+  "keywords": [
+    "rails",
+    "credentials",
+    "password",
+    "key",
+    "vault",
+    "encrypted"
+  ],
+  "author": "Daniel Steinhauer",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/Pik-9/receptionist/issues"
+  },
+  "homepage": "https://github.com/Pik-9/receptionist#readme"
+}
