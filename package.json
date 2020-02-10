@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/Pik-9/receptionist/issues"
   },
-  "homepage": "https://github.com/Pik-9/receptionist#readme"
+  "homepage": "https://github.com/Pik-9/receptionist#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
 }

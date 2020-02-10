@@ -57,9 +57,6 @@ const load_vault = () => {
   const cipher = crypto.createDecipheriv('aes256', keyiv.key, keyiv.iv);
   let ret = cipher.update(vault);
   ret = Buffer.concat([ret, cipher.final()]);
-  if (!ret.toString().startsWith('// Do not remove this line.'))  {
-    throw 'Either the key is wrong, or the vault file is broken!';
-  }
 
   return ret;
 };
