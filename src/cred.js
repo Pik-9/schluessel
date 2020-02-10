@@ -1,20 +1,21 @@
 const files = require('./files.js');
+const errors = require('./error.js');
 const fs = require('fs');
 const crypto = require('crypto');
 
 const load_key = () => {
   if (!fs.existsSync(files.key_file))  {
-    throw 'Keyfile does not exist.';
+    throw new errors.KeyfileNotFound();
   }
 
   const buffer = fs.readFileSync(files.key_file);
-  if (!/^[0-9a-zA-Z/+=]+$/.test(buffer.toString('ascii')))  {
-    throw 'Keyfile has invalid format. Should be a base64 string.';
+  if (!errors.test_base64.test(buffer.toString('ascii')))  {
+    throw new errors.InvalidFormat(files.key_file);
   }
 
   const keyiv = Buffer.from(buffer.toString('ascii'), 'base64');
   if (keyiv.length !== 48)  {
-    throw 'Keyfile has wrong size. You should create a new one.';
+    throw new errors.WrongKeysize();
   }
 
   return {
@@ -25,7 +26,7 @@ const load_key = () => {
 
 const create_key = (force = false) => {
   if (!force && fs.existsSync(files.key_file))  {
-    throw 'The key file already exists. Overwrite?';
+    throw new errors.KeyfileAlreadyExists();
   }
 
   const keyiv = crypto.randomBytes(48);
@@ -44,12 +45,12 @@ const load_vault = () => {
   const keyiv = load_key();
 
   if (!fs.existsSync(files.vault_file))  {
-    throw 'The vault does not exist.';
+    throw new errors.VaultfileNotFound();
   }
 
   const buffer = fs.readFileSync(files.vault_file);
-  if (!/^[0-9a-z-A-Z/+=]+$/.test(buffer.toString('ascii')))  {
-    throw 'Vault file has invalid format. Should be a base64 string.';
+  if (!errors.test_base64.test(buffer.toString('ascii')))  {
+    throw new errors.InvalidFormat(files.vault_file);
   }
 
   const vault = Buffer.from(buffer.toString('ascii'), 'base64');
@@ -57,6 +58,9 @@ const load_vault = () => {
   const cipher = crypto.createDecipheriv('aes256', keyiv.key, keyiv.iv);
   let ret = cipher.update(vault);
   ret = Buffer.concat([ret, cipher.final()]);
+  if (!ret.toString().includes('_description'))  {
+    throw new errors.WrongKey();
+  }
 
   return ret;
 };
