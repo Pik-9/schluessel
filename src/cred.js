@@ -14,7 +14,7 @@ const load_key = () => {
   }
 
   const keyiv = Buffer.from(buffer.toString('ascii'), 'base64');
-  if (keyiv.length !== 48)  {
+  if (keyiv.length !== 44)  {
     throw new errors.WrongKeysize();
   }
 
@@ -29,16 +29,17 @@ const create_key = (force = false) => {
     throw new errors.KeyfileAlreadyExists();
   }
 
-  const keyiv = crypto.randomBytes(48);
+  const keyiv = crypto.randomBytes(44);
   fs.writeFileSync(files.key_file, keyiv.toString('base64'));
 };
 
 const save_vault = (plaintext) => {
   const keyiv = load_key();
-  const cipher = crypto.createCipheriv('aes256', keyiv.key, keyiv.iv);
+  const cipher = crypto.createCipheriv('aes-256-gcm', keyiv.key, keyiv.iv);
   let ctext = cipher.update(plaintext);
   ctext = Buffer.concat([ctext, cipher.final()]);
-  fs.writeFileSync(files.vault_file, ctext.toString('base64'));
+  const authtag = cipher.getAuthTag();
+  fs.writeFileSync(files.vault_file, Buffer.concat([authtag, ctext]).toString('base64'));
 };
 
 const load_vault = () => {
@@ -55,10 +56,13 @@ const load_vault = () => {
 
   const vault = Buffer.from(buffer.toString('ascii'), 'base64');
 
-  const cipher = crypto.createDecipheriv('aes256', keyiv.key, keyiv.iv);
-  let ret = cipher.update(vault);
-  ret = Buffer.concat([ret, cipher.final()]);
-  if (!ret.toString().includes('_description'))  {
+  const cipher = crypto.createDecipheriv('aes-256-gcm', keyiv.key, keyiv.iv);
+  cipher.setAuthTag(vault.slice(0, 16));
+  let ret;
+  try  {
+    ret = cipher.update(vault.slice(16));
+    ret = Buffer.concat([ret, cipher.final()]);
+  } catch(err)  {
     throw new errors.WrongKey();
   }
 
