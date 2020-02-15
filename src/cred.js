@@ -3,6 +3,9 @@ const errors = require('./error.js');
 const fs = require('fs');
 const crypto = require('crypto');
 
+const iv_len = 12;
+const tag_len = 16;
+
 const load_key = () => {
   if (!fs.existsSync(files.key_file))  {
     throw new errors.KeyfileNotFound();
@@ -13,15 +16,12 @@ const load_key = () => {
     throw new errors.InvalidFormat(files.key_file);
   }
 
-  const keyiv = Buffer.from(buffer.toString('ascii'), 'base64');
-  if (keyiv.length !== 44)  {
+  const key = Buffer.from(buffer.toString('ascii'), 'base64');
+  if (key.length !== 32)  {
     throw new errors.WrongKeysize();
   }
 
-  return {
-    key: keyiv.slice(0, 32),
-    iv: keyiv.slice(32)
-  };
+  return key;
 }
 
 const create_key = (force = false) => {
@@ -29,21 +29,22 @@ const create_key = (force = false) => {
     throw new errors.KeyfileAlreadyExists();
   }
 
-  const keyiv = crypto.randomBytes(44);
-  fs.writeFileSync(files.key_file, keyiv.toString('base64'));
+  const key = crypto.randomBytes(32);
+  fs.writeFileSync(files.key_file, key.toString('base64'));
 };
 
 const save_vault = (plaintext) => {
-  const keyiv = load_key();
-  const cipher = crypto.createCipheriv('aes-256-gcm', keyiv.key, keyiv.iv);
+  const key = load_key();
+  const iv = crypto.randomBytes(iv_len);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
   let ctext = cipher.update(plaintext);
   ctext = Buffer.concat([ctext, cipher.final()]);
   const authtag = cipher.getAuthTag();
-  fs.writeFileSync(files.vault_file, Buffer.concat([authtag, ctext]).toString('base64'));
+  fs.writeFileSync(files.vault_file, Buffer.concat([iv, authtag, ctext]).toString('base64'));
 };
 
 const load_vault = () => {
-  const keyiv = load_key();
+  const key = load_key();
 
   if (!fs.existsSync(files.vault_file))  {
     throw new errors.VaultfileNotFound();
@@ -56,11 +57,12 @@ const load_vault = () => {
 
   const vault = Buffer.from(buffer.toString('ascii'), 'base64');
 
-  const cipher = crypto.createDecipheriv('aes-256-gcm', keyiv.key, keyiv.iv);
-  cipher.setAuthTag(vault.slice(0, 16));
+  const iv = vault.slice(0, iv_len);
+  const cipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  cipher.setAuthTag(vault.slice(iv_len, iv_len + tag_len));
   let ret;
   try  {
-    ret = cipher.update(vault.slice(16));
+    ret = cipher.update(vault.slice(iv_len + tag_len));
     ret = Buffer.concat([ret, cipher.final()]);
   } catch(err)  {
     throw new errors.WrongKey();
