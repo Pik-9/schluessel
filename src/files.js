@@ -9,6 +9,7 @@ const key_file = `${mpath}/${key}`;
 
 module.exports = {
   environment: env,
+  path: mpath,
   vault: vault,
   key: key,
   vault_file: vault_file,

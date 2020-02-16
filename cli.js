@@ -4,6 +4,7 @@ const rl = require('readline-sync');
 const fs = require('fs');
 
 const files = require('./src/files.js');
+const ignore_keys = require('./src/ignore.js');
 const cred = require('./src/cred.js');
 const edit = require('./src/edit-file.js');
 
@@ -39,6 +40,9 @@ if (process.argv.length > 1)  {
 
     const template = Buffer.from('{\n  "_description": "Put your credentials here..."\n}\n');
     cred.save_vault(template);
+
+    // Make sure, the key files are ignored and not published.
+    ignore_keys();
   } else if (process.argv[2] === 'edit')  {
     try  {
       const content = cred.load_vault();
