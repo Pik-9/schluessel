@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const iv_len = 12;
 const tag_len = 16;
 
-const load_key = () => {
+const load_key_from_file = () => {
   if (!fs.existsSync(files.key_file))  {
     throw new errors.KeyfileNotFound();
   }
@@ -23,6 +23,24 @@ const load_key = () => {
 
   return key;
 }
+
+const load_key_from_env = () => {
+  const key_str = process.env.NODE_MASTER_KEY;
+
+  if (key_str)  {
+    const key = Buffer.from(key_str, 'base64');
+
+    if (key.length !== 32)  {
+      throw new errors.WrongKeysize();
+    }
+
+    return key;
+  } else  {
+    return undefined;
+  }
+};
+
+const load_key = () => load_key_from_env() || load_key_from_file();
 
 const create_key = (force = false) => {
   if (!force && fs.existsSync(files.key_file))  {
