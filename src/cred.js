@@ -26,8 +26,13 @@ const load_key_from_file = () => {
 
 const load_key_from_env = () => {
   const key_str = process.env.NODE_MASTER_KEY;
+  if (typeof key_str === 'undefined')  {
+    return undefined;
+  } else  {
+    if (!errors.test_base64.test(key_str))  {
+      throw new errors.InvalidFormat(`NODE_MASTER_KEY = ${key_str}`);
+    }
 
-  if (key_str)  {
     const key = Buffer.from(key_str, 'base64');
 
     if (key.length !== 32)  {
@@ -35,8 +40,6 @@ const load_key_from_env = () => {
     }
 
     return key;
-  } else  {
-    return undefined;
   }
 };
 

@@ -4,7 +4,7 @@
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=testing node test.js"
   },
   "bin": "cli.js",
   "repository": {
