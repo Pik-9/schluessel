@@ -1,6 +1,6 @@
 {
-  "name": "receptionist",
-  "version": "0.1.0",
+  "name": "schluessel",
+  "version": "0.1.1",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
@@ -9,22 +9,23 @@
   "bin": "cli.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pik-9/receptionist.git"
+    "url": "git+https://github.com/Pik-9/schluessel.git"
   },
   "keywords": [
-    "rails",
+    "schluessel",
     "credentials",
     "password",
     "key",
     "vault",
-    "encrypted"
+    "encrypted",
+    "rails"
   ],
   "author": "Daniel Steinhauer",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/Pik-9/receptionist/issues"
+    "url": "https://github.com/Pik-9/schluessel/issues"
   },
-  "homepage": "https://github.com/Pik-9/receptionist#readme",
+  "homepage": "https://github.com/Pik-9/schluessel#readme",
   "dependencies": {
     "readline-sync": "^1.4.10"
   }

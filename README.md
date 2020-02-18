@@ -1,4 +1,4 @@
-# receptionist
+# schluessel
 Node.js package for storing application credentials (API keys, database passwords, etc.) encrypted in your repository.
 
 ## Introduction
@@ -11,16 +11,16 @@ The credentials get enciphered :lock: and written to a file that can be checked 
 In order for the application to access them, you need to hand over the master key to decipher :unlock: them.
 
 ## How it works
-`receptionist` will store your credentials in a JSON formatted file and create a respective keyfile
+`schluessel` will store your credentials in a JSON formatted file and create a respective keyfile
 for every environment (`NODE_ENV`).
 It is safe to check in your credentials file (`credentials.<NODE_ENV>.json.enc`) into your
 version control, :ok_hand: but make sure to **never publish** the key file! :scream:  
 The default environment - if not specified otherwise - is _development_.
 
-### Install `receptionist`
-Just install `receptionist` by typing from your project root directory:
+### Install `schluessel`
+Just install `schluessel` by typing from your project root directory:
 ```bash
-npm install --save receptionist
+npm install --save schluessel
 ```
 
 ### Accessing the credentials
@@ -38,7 +38,7 @@ Let's assume you have the following credentials:
 
 From within your application do:
 ```javascript
-const my_credentials = require('receptionist');
+const my_credentials = require('schluessel');
 
 // my_credentials will be the object you defined above in JSON format.
 let db_connection = connect_to_database(my_credentials.database.username, my_credentials.database.password);
@@ -47,10 +47,10 @@ let db_connection = connect_to_database(my_credentials.database.username, my_cre
 That's it! :sparkles:
 
 ### Creating a vault and key file
-`receptionist` has a CLI that can be executed with `npx`.
+`schluessel` has a CLI that can be executed with `npx`.
 Just do:
 ```bash
-npx receptionist new
+npx schluessel new
 ```
 This will create a new vault and keyfile in your project root directory for the _development_ environment.  
 
@@ -63,7 +63,7 @@ to make sure that you really will never check in the keyfile.
 ### Editing the credentials
 Just type:
 ```bash
-npx receptionist edit
+npx schluessel edit
 ```
 This will decipher the vault file and let you edit it with your favorite text editor.
 It will be enciphered again as soon as you close the editor.
@@ -78,12 +78,12 @@ to use. The default is _development_.
 
 If you want to create a vault and key file for another environment, just do:
 ```bash
-NODE_ENV=<your environment> npx receptionist new
+NODE_ENV=<your environment> npx schluessel new
 ```
 
 And respectively to edit the credentials:
 ```bash
-NODE_ENV=<your environment> npx receptionist edit
+NODE_ENV=<your environment> npx schluessel edit
 ```
 
 ### Key handling

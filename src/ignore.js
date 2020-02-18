@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const ignore_keys = () => {
   const file_already_ignores = (filepath) => fs.readFileSync(filepath).includes('credentials.*.key');
-  const lines_of_ignorance = '\n# Node receptionist credentials keys\ncredentials.*.key\n';
+  const lines_of_ignorance = '\n# Node schluessel credentials keys\ncredentials.*.key\n';
   const npm_ig = files.path + '/.npmignore';
   const git_ig = files.path + '/.gitignore';
 

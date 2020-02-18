@@ -9,12 +9,12 @@ const cred = require('./src/cred.js');
 const edit = require('./src/edit-file.js');
 
 const help = () => {
-  console.log('receptionist usage:');
-  console.log('  $ npx receptionist new');
+  console.log('schluessel usage:');
+  console.log('  $ npx schluessel new');
   console.log('    Create a new key and IV.');
   console.log('    ATTENTION: This will overwrite existing keys as well as credentials!');
   console.log('');
-  console.log('  $ npx receptionist edit');
+  console.log('  $ npx schluessel edit');
   console.log('    This will let you edit the credentials with your default text editor.');
   console.log('');
   console.log('Copyright (C) 2020, Daniel Steinhauer');
