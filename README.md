@@ -1,7 +1,8 @@
 # schluessel
 ![Node.js CI](https://github.com/Pik-9/schluessel/workflows/Node.js%20CI/badge.svg?branch=master&event=push)
 ![npm](https://img.shields.io/npm/v/schluessel)
-![GitHub](https://img.shields.io/github/license/Pik-9/schluessel)
+![GitHub](https://img.shields.io/github/license/Pik-9/schluessel)  
+
 Node.js package for storing application credentials (API keys, database passwords, etc.) encrypted in your repository.
 
 ## Introduction
