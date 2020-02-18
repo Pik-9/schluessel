@@ -1,6 +1,6 @@
 {
   "name": "receptionist",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {

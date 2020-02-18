@@ -13,12 +13,12 @@ In order for the application to access them, you need to hand over the master ke
 ## How it works
 `receptionist` will store your credentials in a JSON formatted file and create a respective keyfile
 for every environment (`NODE_ENV`).
-It is safe and to check in your credentials file (`credentials.<NODE_ENV>.json.enc`) into your
+It is safe to check in your credentials file (`credentials.<NODE_ENV>.json.enc`) into your
 version control, :ok_hand: but make sure to **never publish** the key file! :scream:  
-The default environment if not specified otherwise is _development_.
+The default environment - if not specified otherwise - is _development_.
 
 ### Install `receptionist`
-Just install `receptionist` typing from your project root directory:
+Just install `receptionist` by typing from your project root directory:
 ```bash
 npm install --save receptionist
 ```
@@ -36,7 +36,7 @@ Let's assume you have the following credentials:
 }
 ```
 
-From your application do:
+From within your application do:
 ```javascript
 const my_credentials = require('receptionist');
 
@@ -46,19 +46,19 @@ let db_connection = connect_to_database(my_credentials.database.username, my_cre
 
 That's it! :sparkles:
 
-### Creating a vault and keyfile
+### Creating a vault and key file
 `receptionist` has a CLI that can be executed with `npx`.
 Just do:
 ```bash
 npx receptionist new
 ```
-This will create a new vault and keyfile in your project root directory for the development environment.  
+This will create a new vault and keyfile in your project root directory for the _development_ environment.  
 
-**ATTENTION: It is important to `cd /path/to/your/project/root` before you execute the following!**
+**ATTENTION: It is important to `cd /path/to/your/project/root` before you execute the code above!**
 The CLI script cannot determine your project root on its own, so it's just using the _current working directory_.
 
 This command will also add the line `credentials.*.key` to your `.gitignore` (and `.npmignore` if it exists)
-to make sure that you really will never check the keyfile in.
+to make sure that you really will never check in the keyfile.
 
 ### Editing the credentials
 Just type:
@@ -76,25 +76,25 @@ You often have totally different credentials during development, testing and the
 You can (and should) create a credentials and key file pair for every single node environment you're about
 to use. The default is _development_.
 
-If you want to create a vault and keyfile for another environment, just do:
+If you want to create a vault and key file for another environment, just do:
 ```bash
 NODE_ENV=<your environment> npx receptionist new
 ```
 
-And resectively to edit the credentials:
+And respectively to edit the credentials:
 ```bash
 NODE_ENV=<your environment> npx receptionist edit
 ```
 
 ### Key handling
-I cannot stress enough how crucial it is that you never upload the .key file anywhere.
-For deploying I would recommend creating a separate `NODE_ENV` (e.g. `production`) and place the keyfile for
+I cannot stress enough how crucial it is that you never upload the key file anywhere.
+For deploying I would recommend creating a separate `NODE_ENV` (e.g. `production`) and place the key file for
 this environment (and only for this one) on your server manually.  
 If you cannot or don't want to place a file on your server, you can also _pass it via an environment variable_:
 ```bash
 NODE_ENV=<your environment> NODE_MASTER_KEY="mqkMGRLfY+GwjnlXOlIzJw+tlip/SBny/QOlDHQltEM=" node my_awesome_app.js
 ```
-:ship_it:
+:four_leaf_clover:
 
 This should be obvious, but if you loose your :key:, the respective credentials will be lost forever! :fire:
 
@@ -103,4 +103,4 @@ Note: All binary data is encoded in _base64_.
 ### Changing IVs
 Every time you edit the credentials, a new _Initialisation Vector_ will be used resulting in completely differnt
 ciphertexts even for very small changes. This will prevent attackers from searching for patterns in your
-`credentials.<NODE_ENV>.json.env` across several save states :crystal_ball:.
+`credentials.<NODE_ENV>.json.enc` across several save states :crystal_ball:.
