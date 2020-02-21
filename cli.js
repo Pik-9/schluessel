@@ -28,34 +28,34 @@ const help = () => {
 
 if (process.argv.length > 1) {
   if (process.argv[2] === 'new') {
-    if (fs.existsSync(files.vault_file)) {
+    if (fs.existsSync(files.vaultFile)) {
       if (rl.question('WARNING: The vault file already exists. Overwrite? (y/N) ').toUpperCase() !== 'Y') {
         process.exit();
       }
     }
 
     try {
-      cred.create_key();
+      cred.createKey();
     } catch (err) {
       if (rl.question(`WARNING: ${err} (y/N) `).toUpperCase() === 'Y') {
-        cred.create_key(true);
+        cred.createKey(true);
       }
     }
 
     const template = Buffer.from('{\n  "_description": "Put your credentials here..."\n}\n');
-    cred.save_vault(template);
+    cred.saveVault(template);
 
     // Make sure, the key files are ignored and not published.
     ignoreKeys();
   } else if (process.argv[2] === 'edit') {
     try {
-      const content = cred.load_vault();
+      const content = cred.loadVault();
       const tmpFile = 'credentials.tmp.json';
       fs.writeFileSync(tmpFile, content);
       edit(tmpFile);
       const newContent = fs.readFileSync(tmpFile);
       fs.unlinkSync(tmpFile);
-      cred.save_vault(newContent);
+      cred.saveVault(newContent);
     } catch (err) {
       outline(`ERROR: ${err}`);
     }
