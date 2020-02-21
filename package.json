@@ -1,6 +1,6 @@
 {
   "name": "schluessel",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
@@ -12,6 +12,15 @@
     "type": "git",
     "url": "git+https://github.com/Pik-9/schluessel.git"
   },
+  "files": [
+    "src/*",
+    "test/*",
+    "test.js",
+    "cli.js",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "keywords": [
     "schluessel",
     "credentials",
