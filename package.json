@@ -4,7 +4,8 @@
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=testing node test.js"
+    "lint": "npx eslint .",
+    "test": "npm run lint && NODE_ENV=testing node test.js"
   },
   "bin": "cli.js",
   "repository": {
@@ -28,5 +29,10 @@
   "homepage": "https://github.com/Pik-9/schluessel#readme",
   "dependencies": {
     "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
   }
 }
