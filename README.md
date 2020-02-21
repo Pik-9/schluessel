@@ -1,6 +1,7 @@
 # schluessel
 ![Node.js CI](https://github.com/Pik-9/schluessel/workflows/Node.js%20CI/badge.svg?branch=master&event=push)
 ![npm](https://img.shields.io/npm/v/schluessel)
+[![Airbnb coding style](https://img.shields.io/badge/Coding%20Style-Airbnb-red)](https://github.com/airbnb/javascript#airbnb-javascript-style-guide-)
 ![GitHub](https://img.shields.io/github/license/Pik-9/schluessel)  
 
 Node.js package for storing application credentials (API keys, database passwords, etc.) encrypted in your repository.
