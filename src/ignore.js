@@ -3,7 +3,10 @@ const fs = require('fs');
 const files = require('./files.js');
 
 module.exports = () => {
-  const fileAlreadyIgnores = (filepath) => fs.readFileSync(filepath).includes('credentials.*.key');
+  const fileAlreadyIgnores = (filepath) => (fs.existsSync(filepath)
+    ? fs.readFileSync(filepath).includes('credentials.*.key')
+    : false);
+
   const linesOfIgnorance = '\n# Node schluessel credentials keys\ncredentials.*.key\n';
   const npmIgn = `${files.path}/.npmignore`;
   const gitIgn = `${files.path}/.gitignore`;
