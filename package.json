@@ -1,6 +1,6 @@
 {
   "name": "schluessel",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,9 @@
     "url": "https://github.com/Pik-9/schluessel/issues"
   },
   "homepage": "https://github.com/Pik-9/schluessel#readme",
-  "dependencies": {},
+  "dependencies": {
+    "app-root-path": "^3.0.0"
+  },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",

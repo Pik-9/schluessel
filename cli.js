@@ -1,5 +1,8 @@
 #!/usr/bin/env node
 
+// Indicate that we are running this from the CLI.
+global.isCli = true;
+
 const readline = require('readline');
 const fs = require('fs');
 
