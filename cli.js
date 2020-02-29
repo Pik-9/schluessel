@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const rl = require('readline-sync');
+const readline = require('readline');
 const fs = require('fs');
 
 const files = require('./src/files.js');
@@ -8,9 +8,20 @@ const ignoreKeys = require('./src/ignore.js');
 const cred = require('./src/cred.js');
 const edit = require('./src/edit-file.js');
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 const outline = (msg) => {
   process.stdout.write(`${msg}\n`);
 };
+
+const yesno = (qustn) => new Promise((resolve) => {
+  rl.question(`${qustn} (y/N): `, (answer) => {
+    resolve(answer.toUpperCase() === 'Y');
+  });
+});
 
 const help = () => {
   outline('schluessel usage:');
@@ -26,42 +37,54 @@ const help = () => {
   outline('  See LICENSE');
 };
 
-if (process.argv.length > 1) {
-  if (process.argv[2] === 'new') {
-    if (fs.existsSync(files.vaultFile)) {
-      if (rl.question('WARNING: The vault file already exists. Overwrite? (y/N) ').toUpperCase() !== 'Y') {
-        process.exit();
+const main = async () => {
+  if (process.argv.length > 1) {
+    if (process.argv[2] === 'new') {
+      if (fs.existsSync(files.vaultFile)) {
+        const overwriteVault = await yesno('WARNING: The vault file already exists. Overwrite?');
+        if (!overwriteVault) {
+          process.exit();
+        }
       }
-    }
 
-    try {
-      cred.createKey();
-    } catch (err) {
-      if (rl.question(`WARNING: ${err} (y/N) `).toUpperCase() === 'Y') {
-        cred.createKey(true);
+      try {
+        cred.createKey();
+      } catch (err) {
+        outline(`WARNING: ${err.message}.`);
+        const forcekey = await yesno('Key may be overwritten. Create anyway?');
+        if (forcekey) {
+          cred.createKey(true);
+        }
       }
-    }
 
-    const template = Buffer.from('{\n  "_description": "Put your credentials here..."\n}\n');
-    cred.saveVault(template);
+      const template = Buffer.from('{\n  "_description": "Put your credentials here..."\n}\n');
+      cred.saveVault(template);
 
-    // Make sure, the key files are ignored and not published.
-    ignoreKeys();
-  } else if (process.argv[2] === 'edit') {
-    try {
-      const content = cred.loadVault();
-      const tmpFile = 'credentials.tmp.json';
-      fs.writeFileSync(tmpFile, content);
-      edit(tmpFile);
-      const newContent = fs.readFileSync(tmpFile);
-      fs.unlinkSync(tmpFile);
-      cred.saveVault(newContent);
-    } catch (err) {
-      outline(`ERROR: ${err}`);
+      // Make sure, the key files are ignored and not published.
+      ignoreKeys();
+    } else if (process.argv[2] === 'edit') {
+      try {
+        const content = cred.loadVault();
+        const tmpFile = 'credentials.tmp.json';
+        fs.writeFileSync(tmpFile, content);
+        edit(tmpFile);
+        const newContent = fs.readFileSync(tmpFile);
+        fs.unlinkSync(tmpFile);
+        cred.saveVault(newContent);
+      } catch (err) {
+        outline(`ERROR: ${err}`);
+      }
+    } else {
+      help();
     }
   } else {
     help();
   }
-} else {
-  help();
-}
+};
+
+main().then(() => {
+  process.exit();
+}, (err) => {
+  process.stderr.write(`An error occured: ${err}\n`);
+  process.exit(1);
+});

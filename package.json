@@ -36,9 +36,7 @@
     "url": "https://github.com/Pik-9/schluessel/issues"
   },
   "homepage": "https://github.com/Pik-9/schluessel#readme",
-  "dependencies": {
-    "readline-sync": "^1.4.10"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
