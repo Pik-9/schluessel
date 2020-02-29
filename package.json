@@ -2,7 +2,12 @@
   "name": "schluessel",
   "version": "0.1.5",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
+  "type": "commonjs",
   "main": "index.js",
+  "exports": {
+    "require": "./index.js",
+    "import": "./ecma-index.mjs"
+  },
   "scripts": {
     "lint": "npx eslint .",
     "test": "npm run lint && NODE_ENV=testing node test.js"
@@ -16,6 +21,7 @@
     "src/*",
     "cli.js",
     "index.js",
+    "ecma-index.mjs",
     "README.md",
     "LICENSE"
   ],

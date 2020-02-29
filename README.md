@@ -41,12 +41,22 @@ Let's assume you have the following credentials:
 }
 ```
 
+#### CommonJS
 From within your application do:
 ```javascript
-const my_credentials = require('schluessel');
+const myCredentials = require('schluessel');
 
-// my_credentials will be the object you defined above in JSON format.
-let db_connection = connect_to_database(my_credentials.database.username, my_credentials.database.password);
+// myCredentials will be the object you defined above in JSON format.
+let dbConnection = connectToDatabase(myCredentials.database.username, myCredentials.database.password);
+```
+
+#### ECMA Modules
+From within your application do:
+```javascript
+import myCredentials from 'schluessel';
+
+// myCredentials will be the object you defined above in JSON format.
+let dbConnection = connectToDatabase(myCredentials.database.username, myCredentials.database.password);
 ```
 
 That's it! :sparkles:
