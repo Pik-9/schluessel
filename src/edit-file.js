@@ -46,5 +46,6 @@ module.exports = (file) => {
     {
       stdio: ['inherit', 'inherit', 'inherit'],
       windowsHide: true,
+      shell: true,
     });
 };
