@@ -47,7 +47,10 @@ From within your application do:
 const myCredentials = require('schluessel');
 
 // myCredentials will be the object you defined above in JSON format.
-let dbConnection = connectToDatabase(myCredentials.database.username, myCredentials.database.password);
+const dbConnection = connectToDatabase(
+  myCredentials.database.username,
+  myCredentials.database.password
+);
 ```
 
 #### ECMA Modules
@@ -56,14 +59,16 @@ From within your application do:
 import myCredentials from 'schluessel';
 
 // myCredentials will be the object you defined above in JSON format.
-let dbConnection = connectToDatabase(myCredentials.database.username, myCredentials.database.password);
+const dbConnection = connectToDatabase(
+  myCredentials.database.username,
+  myCredentials.database.password
+);
 ```
 
 That's it! :sparkles:
 
 ### Creating a vault and key file
-`schluessel` has a CLI that can be executed with `npx`.
-Just do:
+`schluessel` has a CLI that can be invoked with `npx`:
 ```bash
 npx schluessel new
 ```

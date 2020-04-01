@@ -41,11 +41,17 @@ const defaultEditor = () => {
 };
 
 module.exports = (file) => {
-  cp.spawnSync(defaultEditor(),
+  const ret = cp.spawnSync(
+    defaultEditor(),
     [file],
     {
       stdio: ['inherit', 'inherit', 'inherit'],
       windowsHide: true,
       shell: true,
-    });
+    },
+  );
+
+  if ('error' in ret) {
+    throw ret.error;
+  }
 };
