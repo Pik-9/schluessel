@@ -35,6 +35,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: "./schluessel*.tgz"
+          asset_path: './schluessel*.tgz'
           asset_name: schluessel.tgz
           asset_content_type: application/zip
+
+  publish:
+    name: dual-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Node.js
+        uses: actions/setup-node@master
+        with:
+          node-version: 12.x
+      - name: Publish to Github and npmjs
+        uses: pascalgn/npm-publish-action@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.npm_token }}
