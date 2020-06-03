@@ -5,42 +5,18 @@ on:
     types: [created]
 
 jobs:
-  build:
+  publish:
+    name: dual-publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Setup Node.js
+        uses: actions/setup-node@master
         with:
-          node-version: 12
-      - run: npm ci
-      - run: npm test
-
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm publish
+          node-version: 12.x
+      - name: Publish to Github and npmjs
+        uses: pascalgn/npm-publish-action@latest
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-
-  publish-gpr:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://npm.pkg.github.com/
-          scope: '@Pik-9'
-      - run: npm ci
-      - run: npm config set scope '@Pik-9'
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.npm_token }}
