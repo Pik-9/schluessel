@@ -17,10 +17,7 @@ jobs:
         with:
           node-version: 12.x
       - name: Buildung
-        run:
-          - npm ci
-          - npm test
-          - npm pack
+        run: npm ci && npm test && npm pack
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
