@@ -39,21 +39,34 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.getfilename.outputs.file }}
-          asset_name: schluessel.tgz
+          asset_name: ${{ steps.getfilename.outputs.file }}
           asset_content_type: application/zip
 
-  publish:
-    name: dual-publish
+  publish-npm:
+    name: Publish package to npmjs
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: Setup Node.js
-        uses: actions/setup-node@master
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
         with:
-          node-version: 12.x
-      - name: Publish to Github and npmjs
-        uses: pascalgn/npm-publish-action@1.2.0
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org/'
+      - run: npm ci
+      - run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+  publish-gpr:
+    name: Publish package to Github packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@Pik-9'
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN_NPM }
