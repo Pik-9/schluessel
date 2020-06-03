@@ -1,3 +1,9 @@
+/**
+ * A method to add files to ignore to .gitignore and .npmignore.
+ *
+ * @author Daniel Steinhauer.
+ */
+
 const fs = require('fs');
 
 const files = require('./files.js');

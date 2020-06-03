@@ -1,3 +1,9 @@
+/**
+ * Export several important file paths in the project.
+ *
+ * @author Daniel Steinhauer
+ */
+
 const appRoot = require('app-root-path');
 
 const env = process.env.NODE_ENV || 'development';

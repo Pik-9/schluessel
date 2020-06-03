@@ -1,3 +1,9 @@
+/**
+ * Export all exceptions in one file.
+ *
+ * @author Daniel Steinhauer
+ */
+
 const KeyfileNotFound = require('./error/keyfile_not_found_error.js');
 const VaultfileNotFound = require('./error/vaultfile_not_found_error.js');
 const KeyfileAlreadyExists = require('./error/keyfile_already_exists_error.js');

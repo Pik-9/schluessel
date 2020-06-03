@@ -1,3 +1,9 @@
+/**
+ * Open the user's preferred text editor to edit the credentials.
+ *
+ * @author Daniel Steinhauer.
+ */
+
 const fs = require('fs');
 const cp = require('child_process');
 

@@ -1,3 +1,9 @@
+/**
+ * Export methods to load/save key/vault files.
+ *
+ * @author Daniel Steinhauer
+ */
+
 const fs = require('fs');
 const crypto = require('crypto');
 const files = require('./files.js');

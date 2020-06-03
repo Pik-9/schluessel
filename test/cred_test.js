@@ -1,3 +1,9 @@
+/**
+ * Several test methods.
+ *
+ * @author Daniel Steinhauer.
+ */
+
 const fs = require('fs');
 const cred = require('../src/cred.js');
 const files = require('../src/files.js');
