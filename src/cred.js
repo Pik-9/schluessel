@@ -18,7 +18,7 @@ const loadKeyFromFile = () => {
   }
 
   const buffer = fs.readFileSync(files.keyFile);
-  if (!errors.test_base64.test(buffer.toString('ascii'))) {
+  if (!errors.testBase64.test(buffer.toString('ascii'))) {
     throw new errors.InvalidFormat(files.keyFile);
   }
 
@@ -35,7 +35,7 @@ const loadKeyFromEnv = () => {
   if (typeof keyStr === 'undefined') {
     return undefined;
   }
-  if (!errors.test_base64.test(keyStr)) {
+  if (!errors.testBase64.test(keyStr)) {
     throw new errors.InvalidFormat(`NODE_MASTER_KEY = ${keyStr}`);
   }
 
@@ -77,7 +77,7 @@ const loadVault = () => {
   }
 
   const buffer = fs.readFileSync(files.vaultFile);
-  if (!errors.test_base64.test(buffer.toString('ascii'))) {
+  if (!errors.testBase64.test(buffer.toString('ascii'))) {
     throw new errors.InvalidFormat(files.vaultFile);
   }
 

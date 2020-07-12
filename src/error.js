@@ -18,5 +18,5 @@ module.exports = {
   WrongKey,
   WrongKeysize,
   InvalidFormat,
-  test_base64: /^[0-9a-zA-Z/+=]+[\s]?$/,
+  testBase64: /^[0-9a-zA-Z/+=]+[\s]?$/,
 };
