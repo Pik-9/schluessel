@@ -1,25 +1,28 @@
 # schluessel
 ![Node.js CI](https://github.com/Pik-9/schluessel/workflows/Node.js%20CI/badge.svg?branch=master&event=push)
 ![npm](https://img.shields.io/npm/v/schluessel)
-[![Airbnb coding style](https://img.shields.io/badge/Coding%20Style-Airbnb-red)](https://github.com/airbnb/javascript#airbnb-javascript-style-guide-)
 ![GitHub](https://img.shields.io/github/license/Pik-9/schluessel)  
 
 Node.js package for storing application credentials (API keys, database passwords, etc.) encrypted in your repository.
 
 ## Introduction
-In complex applications you often have several credentials :key: like database passwords, API keys, etc. you need to store
+In complex applications you often have several credentials like database passwords, API keys, etc. you need to store
 somehow without accidentally checking them into your git repo or publishing them with your npm package.  
 The popular framework _Ruby on Rails_ has a
 [very neat solution](https://medium.com/craft-academy/encrypted-credentials-in-ruby-on-rails-9db1f36d8570)
 for this dilemma:
-The credentials get enciphered :lock: and written to a file that can be checked into the repository.
-In order for the application to access them, you need to hand over the master key to decipher :unlock: them.
+The credentials get enciphered and written to a file that can be checked into the repository.
+In order for the application to access them, you need to hand over the master key to decipher them.
+
+### Where does the name come from?
+"Schlüssel" is the German  word for **key(s)**. _The singular and plural forms are identical here_.  
+:de: :key:
 
 ## How it works
 `schluessel` will store your credentials in a JSON formatted file and create a respective keyfile
 for every environment (`NODE_ENV`).
 It is safe to check in your credentials file (`credentials.<NODE_ENV>.json.enc`) into your
-version control, :ok_hand: but make sure to **never publish** the key file! :scream:  
+version control, but make sure to **never publish** the key file!  
 The default environment - if not specified otherwise - is _development_.
 
 ### Install `schluessel`
@@ -64,6 +67,20 @@ const dbConnection = connectToDatabase(
   myCredentials.database.password
 );
 ```
+
+#### TypeScript
+In a [TypeScript](https://www.typescriptlang.org/) project you need to install `@types/schluessel` first:
+```bash
+npm install --save-dev @types/schluessel
+```
+
+Then you can access your credentials like this:
+```typescript
+import myCredentials = require('schluessel');
+```
+The resulting object `myCredentials` is of type `any` since it's structure is completely up to you
+and cannot be predicted.
+
 
 That's it! :sparkles:
 
@@ -116,11 +133,11 @@ NODE_ENV=<your environment> NODE_MASTER_KEY="mqkMGRLfY+GwjnlXOlIzJw+tlip/SBny/QO
 ```
 :four_leaf_clover:
 
-This should be obvious, but if you loose your :key:, the respective credentials will be lost forever! :fire:
+This should be obvious, but if you loose your key file, the respective credentials will be lost forever! :fire:
 
 Note: All binary data is encoded in _base64_.
 
 ### Changing IVs
 Every time you edit the credentials, a new _Initialisation Vector_ will be used resulting in completely differnt
 ciphertexts even for very small changes. This will prevent attackers from searching for patterns in your
-`credentials.<NODE_ENV>.json.enc` across several save states :crystal_ball:.
+`credentials.<NODE_ENV>.json.enc` across several save states.
