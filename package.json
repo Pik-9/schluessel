@@ -1,6 +1,6 @@
 {
   "name": "schluessel",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "type": "commonjs",
   "main": "index.js",
@@ -9,7 +9,7 @@
     "import": "./ecma-index.mjs"
   },
   "scripts": {
-    "lint": "npx eslint .",
+    "lint": "eslint .",
     "test": "npm run lint && NODE_ENV=testing node test.js"
   },
   "bin": "cli.js",
@@ -46,8 +46,8 @@
     "app-root-path": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.5.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
   }
 }
