@@ -10,6 +10,7 @@ const files = require('./src/files.js');
 const ignoreKeys = require('./src/ignore.js');
 const cred = require('./src/cred.js');
 const edit = require('./src/edit-file.js');
+var editor_override = '';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -41,6 +42,7 @@ const help = () => {
 };
 
 const main = async () => {
+  processArgs();
   if (process.argv.length > 1) {
     if (process.argv[2] === 'new') {
       if (fs.existsSync(files.vaultFile)) {
@@ -70,7 +72,7 @@ const main = async () => {
         const content = cred.loadVault();
         const tmpFile = 'credentials.tmp.json';
         fs.writeFileSync(tmpFile, content);
-        edit(tmpFile);
+        edit(tmpFile, editor_override);
         const newContent = fs.readFileSync(tmpFile);
         fs.unlinkSync(tmpFile);
         cred.saveVault(newContent);
@@ -91,3 +93,37 @@ main().then(() => {
   process.stderr.write(`An error occured: ${err}\n`);
   process.exit(1);
 });
+
+function processArgs() {
+  //get command line arguments
+  const myArgs = process.argv.slice(3);
+  for(var i=0; i < myArgs.length; i++) {
+    console.log(`evaluating argument: ${myArgs[i]}`);
+    switch(myArgs[i]) {
+      case '-k':
+      case '--key-path':
+        if(i+1 >= myArgs.length) {
+          console.log('-k, --key-path switches require a path argument');
+          process.exit(101);
+        }
+        else {
+          files.setKeyPath(myArgs[i+1]);
+          console.log(`key file path set to ${files.keyFile}`);
+          i++;
+        }
+        break;
+      case '-e':
+      case '--editor':
+        if(i+1 >= myArgs.length) {
+          console.log('-e, --editor switches require an argument specifying the editor to use');
+          process.exit(101);
+        }
+        else {
+          editor_override = myArgs[i+1];
+          console.log(`editor override set to ${editor_override}`);
+          i++;
+        }
+        break;
+    }
+  }
+}

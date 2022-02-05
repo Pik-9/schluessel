@@ -46,18 +46,31 @@ const defaultEditor = () => {
   return unixEditor();
 };
 
-module.exports = (file) => {
-  const ret = cp.spawnSync(
-    defaultEditor(),
-    [file],
-    {
-      stdio: ['inherit', 'inherit', 'inherit'],
-      windowsHide: true,
-      shell: true,
-    },
-  );
+module.exports = 
+  (file, editor_override) => {
+    var theEditor;
+    if(editor_override.length < 1) {
+      theEditor = defaultEditor();
+    } else {
+      if (editor_override=='code') {
+        editor_override = 'code --wait'; //need it to wait for file to close
+      }
+      theEditor = editor_override;
+    }
+    console.log(`edit-file.js>editor set to: ${theEditor}`);
+    const ret = cp.spawnSync(
+      theEditor,
+      [file],
+      {
+        stdio: ['inherit', 'inherit', 'inherit'],
+        windowsHide: true,
+        shell: true,
+      },
+    );
 
-  if ('error' in ret) {
-    throw ret.error;
+    if ('error' in ret) {
+      throw ret.error;
+    }
   }
-};
+
+
