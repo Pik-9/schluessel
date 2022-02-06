@@ -105,3 +105,6 @@ dist
 
 *.key
 credentials.*
+
+# Node schluessel credentials keys
+credentials.*.key

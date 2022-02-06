@@ -8,6 +8,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const files = require('./files.js');
 const errors = require('./error.js');
+const editFile = require('./edit-file');
 
 const ivLen = 12;
 const tagLen = 16;

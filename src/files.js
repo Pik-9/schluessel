@@ -16,7 +16,11 @@ const key = `credentials.${env.toLowerCase()}.key`;
  */
 const mpath = (global.isCli ? process.cwd() : appRoot.path);
 const vaultFile = `${mpath}/${vault}`;
-const keyFile = `${mpath}/${key}`;
+var keyFile = `${mpath}/${key}`;
+
+function setKeyPath(path){
+  this.keyFile = `${path}/${key}`;
+}
 
 module.exports = {
   environment: env,
@@ -25,4 +29,5 @@ module.exports = {
   key,
   vaultFile,
   keyFile,
+  setKeyPath
 };
