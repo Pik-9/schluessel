@@ -12,7 +12,7 @@ const errors = require('./error.js');
 const ivLen = 12;
 const tagLen = 16;
 
-const loadKeyFromFile = () => {
+function loadKeyFromFile() {
   if (!fs.existsSync(files.keyFile)) {
     throw new errors.KeyfileNotFound();
   }
@@ -28,9 +28,9 @@ const loadKeyFromFile = () => {
   }
 
   return key;
-};
+}
 
-const loadKeyFromEnv = () => {
+function loadKeyFromEnv() {
   const keyStr = process.env.NODE_MASTER_KEY;
   if (typeof keyStr === 'undefined') {
     return undefined;
@@ -46,20 +46,22 @@ const loadKeyFromEnv = () => {
   }
 
   return key;
-};
+}
 
-const loadKey = () => loadKeyFromEnv() || loadKeyFromFile();
+function loadKey() {
+  return loadKeyFromEnv() || loadKeyFromFile();
+}
 
-const createKey = (force = false) => {
+function createKey(force = false) {
   if (!force && fs.existsSync(files.keyFile)) {
     throw new errors.KeyfileAlreadyExists();
   }
 
   const key = crypto.randomBytes(32);
   fs.writeFileSync(files.keyFile, key.toString('base64'));
-};
+}
 
-const saveVault = (plaintext) => {
+function saveVault(plaintext) {
   const key = loadKey();
   const iv = crypto.randomBytes(ivLen);
   const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
@@ -67,9 +69,9 @@ const saveVault = (plaintext) => {
   ctext = Buffer.concat([ctext, cipher.final()]);
   const authtag = cipher.getAuthTag();
   fs.writeFileSync(files.vaultFile, Buffer.concat([iv, authtag, ctext]).toString('base64'));
-};
+}
 
-const loadVault = () => {
+function loadVault() {
   const key = loadKey();
 
   if (!fs.existsSync(files.vaultFile)) {
@@ -95,7 +97,7 @@ const loadVault = () => {
   }
 
   return ret;
-};
+}
 
 module.exports = {
   loadKey,

@@ -1,6 +1,6 @@
 {
   "name": "schluessel",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Rails like credentials store for database passwords, API keys, etc. encrypted in your repository.",
   "type": "commonjs",
   "main": "index.js",
@@ -10,6 +10,7 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "fix": "eslint --fix .",
     "test": "npm run lint && NODE_ENV=testing node test.js"
   },
   "bin": "cli.js",

@@ -8,7 +8,7 @@ const fs = require('fs');
 
 const files = require('./files.js');
 
-module.exports = () => {
+module.exports = function ignoreKeys() {
   const fileAlreadyIgnores = (filepath) => (fs.existsSync(filepath)
     ? fs.readFileSync(filepath).includes('credentials.*.key')
     : false);
